@@ -2,7 +2,7 @@
 
 ###########################################################
 #                                                         #
-#  Title: Ubuntu18.04 Setup Script                        #
+#  Title: Ubuntu20 LTS Setup Script                        #
 #  Author: Nathan baek                                    #
 #  Date: May 9th, 2023                                    #
 #  Description: blockchain node                           #
