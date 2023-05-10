@@ -85,15 +85,15 @@ if [ "$(id -u)" != "0" ]; then
               systemctl disable filebeat
 
           # Configure motd
-              echo "---------------------------------------------------------------" > /etc/motd.tail
-              echo "               Prohibition of non-authorised use               " >> /etc/motd.tail
-              echo "---------------------------------------------------------------" >> /etc/motd.tail
-              echo "System Information:"                                             >> /etc/motd.tail
-              echo "Hostname: $(hostname)"                                           >> /etc/motd.tail
-              echo "Uptime: $(uptime | awk '{print $3,$4}' | sed 's/,//')"           >> /etc/motd.tail
-              echo "Memory Usage: $(free | awk '/Mem/{printf("%.2f%"), $3/$2*100}')" >> /etc/motd.tail
-              echo "Disk Usage: $(df -h / | awk '/\//{print $(NF-1)}')"              >> /etc/motd.tail
-              echo "---------------------------------------------------------------" >> /etc/motd.tail
+              echo '---------------------------------------------------------------' > /etc/motd.tail
+              echo '               Prohibition of non-authorised use               ' >> /etc/motd.tail
+              echo '---------------------------------------------------------------' >> /etc/motd.tail
+              echo 'System Information:'                                             >> /etc/motd.tail
+              echo 'Hostname: $(hostname)'                                           >> /etc/motd.tail
+              echo 'Uptime: $(uptime | awk '{print $3,$4}' | sed 's/,//')'           >> /etc/motd.tail
+              echo 'Memory Usage: $(free | awk '/Mem/{printf("%.2f%"), $3/$2*100}') >> /etc/motd.tail
+              echo 'Disk Usage: $(df -h / | awk '/\//{print $(NF-1)}')'              >> /etc/motd.tail
+              echo '---------------------------------------------------------------' >> /etc/motd.tail
                 else
                   echo "스크립트 실행이 중지되었습니다. 다시 실행해주세요"
                     exit 1
