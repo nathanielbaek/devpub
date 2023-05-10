@@ -52,7 +52,7 @@ if [ "$(id -u)" != "0" ]; then
               echo 'export HISTTIMEFORMAT="%y-%m-%d %H:%M:%S"' | tee -a /etc/profile > /dev/null
 
           # Configure firewall
-              $fw allow ssh # SSH
+              $fw allow 10022/tcp # SSH
               $fw allow 80/tcp
               $fw allow 443/tcp
               $fw allow 3000/tcp
@@ -69,11 +69,11 @@ if [ "$(id -u)" != "0" ]; then
               systemctl start fail2ban
 
           # input string for replace string in the file
-              echo "Enter the string to search for:"
-              read search_string
-              echo "Enter the replacement string:"
-              read replacement_string
-              sed -i "s/$search_string/$replacement_string/g" filename.txt
+              #echo "Enter the string to search for:"
+              #read search_string
+              #echo "Enter the replacement string:"
+              #read replacement_string
+              #sed -i "s/$search_string/$replacement_string/g" filename.txt
 
           # filebeat Configure
               sed -i 's/#output.elasticsearch:/output.elasticsearch:/g' /etc/filebeat/filebeat.yml
@@ -85,19 +85,19 @@ if [ "$(id -u)" != "0" ]; then
               systemctl disable filebeat
 
           # Configure motd
-              `echo "---------------------------------------------------------------"
-              echo "               Prohibition of non-authorised use               "
-              echo "---------------------------------------------------------------"
-              echo "System Information:"
-              echo "Hostname: $(hostname)"
-              echo "Uptime: $(uptime | awk '{print $3,$4}' | sed 's/,//')"
-              echo "Memory Usage: $(free | awk '/Mem/{printf("%.2f%"), $3/$2*100}')"
-              echo "Disk Usage: $(df -h / | awk '/\//{print $(NF-1)}')"
-              echo "---------------------------------------------------------------"` > /etc/motd
+              echo "---------------------------------------------------------------" > /etc/motd.tail
+              echo "               Prohibition of non-authorised use               " >> /etc/motd.tail
+              echo "---------------------------------------------------------------" >> /etc/motd.tail
+              echo "System Information:"                                             >> /etc/motd.tail
+              echo "Hostname: $(hostname)"                                           >> /etc/motd.tail
+              echo "Uptime: $(uptime | awk '{print $3,$4}' | sed 's/,//')"           >> /etc/motd.tail
+              echo "Memory Usage: $(free | awk '/Mem/{printf("%.2f%"), $3/$2*100}')" >> /etc/motd.tail
+              echo "Disk Usage: $(df -h / | awk '/\//{print $(NF-1)}')"              >> /etc/motd.tail
+              echo "---------------------------------------------------------------" >> /etc/motd.tail
                 else
                   echo "스크립트 실행이 중지되었습니다. 다시 실행해주세요"
                     exit 1
                   fi
 fi
-echo "스크립트 실행이 잘 완료되었습니다."
+echo "스크립트 실행이 완료되었습니다."
 exit 0
