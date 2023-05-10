@@ -94,6 +94,7 @@ if [ "$(id -u)" != "0" ]; then
               echo 'Memory Usage: $(free | awk '/Mem/{printf("%.2f%"), $3/$2*100}')' >> /etc/update-motd.d/99-message
               echo 'Disk Usage: $(df -h / | awk '/\//{print $(NF-1)}')'              >> /etc/update-motd.d/99-message
               echo '---------------------------------------------------------------' >> /etc/update-motd.d/99-message
+              chmod +x /etc/update-motd.d/99-message
                 else
                   echo "스크립트 실행이 중지되었습니다. 다시 실행해주세요"
                     exit 1
