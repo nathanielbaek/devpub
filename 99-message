@@ -1,0 +1,11 @@
+#!/bin/bash
+
+echo "==============================================================="
+echo "               Prohibition of non-authorised use               "
+echo "==============================================================="
+echo "System Information:"
+echo "Hostname: '$(hostname)'"
+echo "Uptime: $(uptime | awk '{print $3,$4}' | sed 's/,//')"
+echo "Memory Usage: $(free | awk '/Mem/{printf("%.2f%"), $3/$2*100}')"
+echo "Disk Usage: $(df -h / | awk '/\//{print $(NF-1)}')"
+echo "==============================================================="
