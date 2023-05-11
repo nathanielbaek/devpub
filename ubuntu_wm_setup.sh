@@ -13,6 +13,10 @@
 [ -n "$ES" ] || ES="http://elasticsearch:9200"
 [ -n "$PKGTOOL" ] || PKGTOOL="apt-get"
 [ -n "$PKG" ] || PKG="vim curl wget ntp ufw fail2ban logwatch filebeat openssl-server"
+[ -n "$NOFILE" ] || NOFILE="/etc/limits.d/-nofile.conf"
+[ -n "$KERNEL" ] || KERNEL="/etc/sysctl.conf"
+[ -n "$MOTD" ] || MOTD="/etc/update-motd.d"
+#[ -z "No such file or directory"] && touch $NOFILE
 
 # Check root authority
 if [ "$(id -u)" != "0" ]; then
@@ -43,18 +47,19 @@ if [ "$(id -u)" != "0" ]; then
           # string import
               echo 'export HISTTIMEFORMAT="%y-%m-%d %H:%M:%S"' | tee -a /etc/profile > /dev/null
               `source /etc/profile`
-              echo "*   soft    nofile    65535" > /etc/limits.d/-nofile.conf
-              echo "*   hard    nofile    65535" >> /etc/limits.d/-nofile.conf
+              touch $NOFILE
+              echo "*   soft    nofile    65535" > $NOFILE
+              echo "*   hard    nofile    65535" >> $NOFILE
           # kernel parameter
-          echo "net.ipv4.ip_local_port_range = 1024 65535" >> /etc/sysctl.conf
-          echo "fs.file-max = 65535" >> /etc/sysctl.conf
-          echo "net.core.somaxconn = 8192" >> /etc/sysctl.conf
-          echo "net.core.netdev_max_backlog = 1800000" >> /etc/sysctl.conf
-          echo "net.core.rmem_default= 253952" >> /etc/sysctl.conf
-          echo "net.core.wmem_default= 253952" >> /etc/sysctl.conf
-          echo "net.core.rmem_max= 16777216" >> /etc/sysctl.conf
-          echo "net.core.wmem_max= 16777216" >> /etc/sysctl.conf
-          echo "vm.swappiness = 1" >> /etc/sysctl.conf
+          echo "net.ipv4.ip_local_port_range = 1024 65535" >> $KERNEL
+          echo "fs.file-max = 65535" >> $KERNEL
+          echo "net.core.somaxconn = 8192" >> $KERNEL
+          echo "net.core.netdev_max_backlog = 1800000" >> $KERNEL
+          echo "net.core.rmem_default= 253952" >> $KERNEL
+          echo "net.core.wmem_default= 253952" >> $KERNEL
+          echo "net.core.rmem_max= 16777216" >> $KERNEL
+          echo "net.core.wmem_max= 16777216" >> $KERNEL
+          echo "vm.swappiness = 1" >> $KERNEL
           `sysctl -p`
           # Configure firewall
               #ufw allow 10022/tcp # SSH
@@ -85,14 +90,13 @@ if [ "$(id -u)" != "0" ]; then
               #systemctl stop filebeat
               #systemctl disable filebeat
           # Configure motd
-            `chmod -x /etc/update-motd/*`
-            `cp -rp ./99-message /etc/update-motd.d/99-message`
-            `chmod +x /etc/update-motd/99-message`
-            fi
-          done
+            `chmod -x $MOTD/*`
+            `cp -rp ./99-message $MOTD/99-message`
+            `chmod +x $MOTD/99-message`
                 else
                   echo "스크립트 실행이 중지되었습니다. 다시 실행해주세요"
                     exit 1
+                  fi
 fi
 echo "스크립트 실행이 완료되었습니다."
 exit 0
