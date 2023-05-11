@@ -13,7 +13,7 @@
 [ -n "$ES" ] || ES="http://elasticsearch:9200"
 [ -n "$PKGTOOL" ] || PKGTOOL="apt-get"
 [ -n "$PKG" ] || PKG="vim curl wget ntp ufw fail2ban logwatch filebeat openssl-server"
-[ -n "$NOFILE" ] || NOFILE="/etc/limits.d/-nofile.conf"
+[ -n "$NOFILE" ] || NOFILE="/etc/security/limits.d/-nofile.conf"
 [ -n "$KERNEL" ] || KERNEL="/etc/sysctl.conf"
 [ -n "$MOTD" ] || MOTD="/etc/update-motd.d"
 #[ -z "No such file or directory"] && touch $NOFILE
