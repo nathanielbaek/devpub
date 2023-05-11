@@ -11,9 +11,8 @@
 
 # Variable
 [ -n "$ES" ] || ES="http://elasticsearch:9200"
-[ -n "$PKGTOOL" ] || PKGTOOL="apt-get"
-[ -n "$PKG" ] || PKG="vim curl wget ntp ufw fail2ban logwatch filebeat openssl-server"
-[ -n "$NOFILE" ] || NOFILE="/etc/security/limits.d/-nofile.conf"
+[ -n "$PKG" ] || PKG="vim wget ntp fail2ban filebeat"
+[ -n "$NOFILE" ] || NOFILE="/etc/security/limits.d/nofile.conf"
 [ -n "$KERNEL" ] || KERNEL="/etc/sysctl.conf"
 [ -n "$MOTD" ] || MOTD="/etc/update-motd.d"
 #[ -z "No such file or directory"] && touch $NOFILE
@@ -31,13 +30,15 @@ if [ "$(id -u)" != "0" ]; then
         echo "Enter hostname:"
         read hostname
         hostnamectl set-hostname $hostname
-        echo "설정된 호스트명은 $hostname 입니다."
+        echo "#############################################"
+        echo "#     설정된 호스트명은 $hostname 입니다.     #"
+        echo "#############################################"
         # Command alias
         `alias vi="vim"`
         # 필수 패키지 설치
-        $PKGTOOL update
-              $PKGTOOL upgrade -y
-              $PKGTOOL install -y $PKG
+              apt-get update
+#              $PKGTOOL upgrade -y
+              apt install -y $PKG
           # Configure timezone
               timedatectl set-timezone Asia/Seoul
               #rdate -s 169.254.169.123
