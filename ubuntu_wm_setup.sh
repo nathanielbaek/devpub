@@ -15,6 +15,7 @@
 [ -n "$NOFILE" ] || NOFILE="/etc/security/limits.d/nofile.conf"
 [ -n "$KERNEL" ] || KERNEL="/etc/sysctl.conf"
 [ -n "$MOTD" ] || MOTD="/etc/update-motd.d"
+[ -n "$BASHRC" ] || BASHRC="~/.bashrc"
 #[ -z "No such file or directory"] && touch $NOFILE
 
 # Check root authority
@@ -34,7 +35,7 @@ if [ "$(id -u)" != "0" ]; then
         echo "#     설정된 호스트명은 $hostname 입니다.     #"
         echo "#############################################"
         # Command alias
-        `alias vi="vim"`
+        echo "alias vi="vim"" >> $BASHRC
         # 필수 패키지 설치
               apt-get update
 #              $PKGTOOL upgrade -y
@@ -46,8 +47,8 @@ if [ "$(id -u)" != "0" ]; then
               systemctl enable ntp
               systemctl start ntp
           # string import
-              echo 'export HISTTIMEFORMAT="%y-%m-%d %H:%M:%S"' | tee -a /etc/profile > /dev/null
-              `source /etc/profile`
+              echo "export HISTTIMEFORMAT="%F %T"" | tee -a /etc/profile > /dev/null
+              source /etc/profile
               touch $NOFILE
               echo "*   soft    nofile    65535" > $NOFILE
               echo "*   hard    nofile    65535" >> $NOFILE
@@ -61,7 +62,7 @@ if [ "$(id -u)" != "0" ]; then
           echo "net.core.rmem_max= 16777216" >> $KERNEL
           echo "net.core.wmem_max= 16777216" >> $KERNEL
           echo "vm.swappiness = 1" >> $KERNEL
-          `sysctl -p`
+          sysctl -p
           # Configure firewall
               #ufw allow 10022/tcp # SSH
               #ufw allow 80/tcp
@@ -91,9 +92,9 @@ if [ "$(id -u)" != "0" ]; then
               #systemctl stop filebeat
               #systemctl disable filebeat
           # Configure motd
-            `chmod -x $MOTD/*`
-            `cp -rp ./99-message $MOTD/99-message`
-            `chmod +x $MOTD/99-message`
+            chmod -x $MOTD/*
+            cp -rp ./99-message $MOTD/99-message
+            chmod +x $MOTD/99-message
                 else
                   echo "스크립트 실행이 중지되었습니다. 다시 실행해주세요"
                     exit 1
