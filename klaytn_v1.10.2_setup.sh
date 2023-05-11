@@ -2,20 +2,21 @@
 
 ###########################################################
 #                                                         #
-#  Title: Ubuntu20 LTS Setup Script                       #
+#  Title: Klaytn Setup Script                             #
 #  Author: Nathan baek                                    #
 #  Date: May 11th, 2023                                   #
-#  Description: default configure for blockchain node     #
+#  Description: kscn v1.10.2-0 , homi v1.10.2-0           #
 #                                                         #
 ###########################################################
 
 # Variable
-[ -n "$ES" ] || ES="http://elasticsearch:9200"
-[ -n "$PKG" ] || PKG="vim wget ntp fail2ban filebeat"
-[ -n "$NOFILE" ] || NOFILE="/etc/security/limits.d/nofile.conf"
-[ -n "$KERNEL" ] || KERNEL="/etc/sysctl.conf"
-[ -n "$MOTD" ] || MOTD="/etc/update-motd.d"
-[ -n "$BASHRC" ] || BASHRC="~/.bashrc"
+[ -n "$KSCNV" ] || KSCNV="https://packages.klaytn.net/klaytn/v1.10.2/kscn-v1.10.2-0-linux-amd64.tar.gz"
+[ -n "$HOMIV" ] || HOMIV="https://packages.klaytn.net/klaytn/v1.10.2/homi-v1.10.2-0-linux-amd64.tar.gz"
+#[ -n "$PKG" ] || PKG="vim wget ntp fail2ban filebeat"
+#[ -n "$NOFILE" ] || NOFILE="/etc/security/limits.d/nofile.conf"
+#[ -n "$KERNEL" ] || KERNEL="/etc/sysctl.conf"
+#[ -n "$MOTD" ] || MOTD="/etc/update-motd.d"
+#[ -n "$BASHRC" ] || BASHRC="~/.bashrc"
 #[ -z "No such file or directory"] && touch $NOFILE
 
 # Check root authority
@@ -28,24 +29,11 @@ if [ "$(id -u)" != "0" ]; then
       if [[ "$i" =~ ^[Yy]$ ]]; then
         echo "스크립트를 실행합니다."
         # Set hostname
-        echo "Enter hostname:"
+        echo "Enter SCN hostname:"
         read hostname
         hostnamectl set-hostname $hostname
-        echo "#############################################"
-        echo "#     설정된 호스트명은 $hostname 입니다.     #"
-        echo "#############################################"
-        # Command alias
-        echo "alias vi="vim"" >> $BASHRC
-        # 필수 패키지 설치
-              apt-get update
-#              $PKGTOOL upgrade -y
-              apt install -y $PKG
-          # Configure timezone
-              timedatectl set-timezone Asia/Seoul
-              #rdate -s 169.254.169.123
-          # ntp start
-              systemctl enable ntp
-              systemctl start ntp
+        echo "   설정된 SCN 호스트명은 $hostname 입니다.   "
+
           # string import
               echo "export HISTTIMEFORMAT="%Y-%m-%d [%H:%M:%S]  "" | tee -a /etc/profile > /dev/null
               source /etc/profile
