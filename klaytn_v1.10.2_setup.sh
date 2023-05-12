@@ -10,8 +10,9 @@
 ###########################################################
 
 # Variable
-[ -n "$KSCNV" ] || KSCNV="https://packages.klaytn.net/klaytn/v1.10.2/kscn-v1.10.2-0-linux-amd64.tar.gz"
-[ -n "$HOMIV" ] || HOMIV="https://packages.klaytn.net/klaytn/v1.10.2/homi-v1.10.2-0-linux-amd64.tar.gz"
+[ -n "$KSCNV11020" ] || KSCNV11020="https://packages.klaytn.net/klaytn/v1.10.2/kscn-v1.10.2-0-linux-amd64.tar.gz"
+[ -n "$HOMIV11020" ] || HOMIV11020="https://packages.klaytn.net/klaytn/v1.10.2/homi-v1.10.2-0-linux-amd64.tar.gz"
+[ -n "$KGENV1910" ] || KGENV1910="https://packages.klaytn.net/klaytn/v1.9.1/kgen-v1.9.1-0-linux-amd64.tar.gz"
 #[ -n "$PKG" ] || PKG="vim wget ntp fail2ban filebeat"
 #[ -n "$NOFILE" ] || NOFILE="/etc/security/limits.d/nofile.conf"
 #[ -n "$KERNEL" ] || KERNEL="/etc/sysctl.conf"
@@ -19,13 +20,52 @@
 #[ -n "$BASHRC" ] || BASHRC="~/.bashrc"
 #[ -z "No such file or directory"] && touch $NOFILE
 
+# 항목 리스트 정의
+options=(
+"kscn-v1.10.2-0"
+"homi-v1.10.2-0"
+"kgen-v1.9.1-0")
+
+# installation per version case
+  pattern )
+    ;;
+esac
+PS3="Select an option: "
+select opt in "${options[@]}"; do
+    case $opt in
+        "Option 1")
+            echo "You selected Option 1"
+            curl -O $KSCNV11020
+            # Option 1에 대한 작업 실행
+            break
+            ;;
+        "Option 2")
+            echo "You selected Option 2"
+            curl -O $HOMIV11020
+            # Option 2에 대한 작업 실행
+            break
+            ;;
+        "Option 3")
+            echo "You selected Option 3"
+            curl -O $KGENV1910
+            # Option 3에 대한 작업 실행
+            break
+            ;;
+        *)
+            echo "Invalid option. Please try again."
+            ;;
+    esac
+done
+
+
+
 # Check root authority
 if [ "$(id -u)" != "0" ]; then
-  echo "이 스크립트는 반드시 root계정으로 실행하여야 합니다."
+  echo "이 스크립트는 반드시 root 권한으로 실행하여야 합니다."
   echo "스크립트 실행을 취소합니다."
   exit 1
     else
-      read -p "root 권한확인되었습니다. 계속진행하시겠습니까? (Y/N): " i
+      read -p "root 권한 확인되었습니다. 계속 진행하시겠습니까? (Y/N): " i
       if [[ "$i" =~ ^[Yy]$ ]]; then
         echo "스크립트를 실행합니다."
         # Set hostname
@@ -41,45 +81,6 @@ if [ "$(id -u)" != "0" ]; then
               echo "*   soft    nofile    65535" > $NOFILE
               echo "*   hard    nofile    65535" >> $NOFILE
           # kernel parameter
-          echo "net.ipv4.ip_local_port_range = 1024 65535" >> $KERNEL
-          echo "fs.file-max = 65535" >> $KERNEL
-          echo "net.core.somaxconn = 8192" >> $KERNEL
-          echo "net.core.netdev_max_backlog = 1800000" >> $KERNEL
-          echo "net.core.rmem_default= 253952" >> $KERNEL
-          echo "net.core.wmem_default= 253952" >> $KERNEL
-          echo "net.core.rmem_max= 16777216" >> $KERNEL
-          echo "net.core.wmem_max= 16777216" >> $KERNEL
-          echo "vm.swappiness = 1" >> $KERNEL
-          sysctl -p
-          # Configure firewall
-              #ufw allow 10022/tcp # SSH
-              #ufw allow 80/tcp
-              #ufw allow 443/tcp
-              #ufw allow 3000/tcp
-              #ufw default deny incoming
-              #ufw default allow outgoing
-              #ufw default deny incoming
-              #ufw default allow outgoing
-              #ufw allow ssh
-              #ufw enable
-              #echo `ufw status`
-          # fail2ban start
-              #systemctl enable fail2ban
-              #systemctl start fail2ban
-          # input string for replace string in the file
-              #echo "Enter the string to search for:"
-              #read search_string
-              #echo "Enter the replacement string:"
-              #read replacement_string
-              #sed -i "s/$search_string/$replacement_string/g" filename.txt
-          # filebeat Configure
-              #sed -i 's/#output.elasticsearch:/output.elasticsearch:/g' /etc/filebeat/filebeat.yml
-              #sed -i "s/#hosts: \[\"localhost:9200\"\]/hosts: \[\"$ES\"\]/g" /etc/filebeat/filebeat.yml
-              #sed -i 's/#index: \"filebeat\"/index: \"system_logs\"/g' /etc/filebeat/filebeat.yml
-          # filebeat - status!stop
-              #systemctl stop filebeat
-              #systemctl disable filebeat
-          # Configure motd
             chmod -x $MOTD/*
             cp -rp ./99-message $MOTD/99-message
             chmod +x $MOTD/99-message
@@ -89,7 +90,4 @@ if [ "$(id -u)" != "0" ]; then
                   fi
 fi
 echo "스크립트 실행이 완료되었습니다."
-echo "#############################################"
-echo "#          확인 후 재기동 해주세요            #"
-echo "#############################################"
 exit 0

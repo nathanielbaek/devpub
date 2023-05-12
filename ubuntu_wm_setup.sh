@@ -20,11 +20,11 @@
 
 # Check root authority
 if [ "$(id -u)" != "0" ]; then
-  echo "이 스크립트는 반드시 root계정으로 실행하여야 합니다."
+  echo "이 스크립트는 반드시 root 권한으로 실행하여야 합니다."
   echo "스크립트 실행을 취소합니다."
   exit 1
     else
-      read -p "root 권한확인되었습니다. 계속진행하시겠습니까? (Y/N): " i
+      read -p "root 권한 확인되었습니다. 계속 진행하시겠습니까? (Y/N): " i
       if [[ "$i" =~ ^[Yy]$ ]]; then
         echo "스크립트를 실행합니다."
         # Set hostname
