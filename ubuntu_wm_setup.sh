@@ -16,6 +16,7 @@
 [ -n "$KERNEL" ] || KERNEL="/etc/sysctl.conf"
 [ -n "$MOTD" ] || MOTD="/etc/update-motd.d"
 [ -n "$BASHRC" ] || BASHRC="~/.bashrc"
+[ -n "$WMPROFILE" ] || WMPROFILE="/etc/profile.d/wemade.sh"
 #[ -z "No such file or directory"] && touch $NOFILE
 
 # Check root authority
@@ -47,8 +48,11 @@ if [ "$(id -u)" != "0" ]; then
               systemctl enable ntp
               systemctl start ntp
           # string import
-              echo "export HISTTIMEFORMAT="%Y-%m-%d [%H:%M:%S]  "" | tee -a /etc/profile > /dev/null
-              source /etc/profile
+              touch $WMPROFILE
+              echo "export HISTTIMEFORMAT="%Y-%m-%d [%H:%M:%S]  "" >> $WMPROFILE
+              source $WMPROFILE
+#              echo "export HISTTIMEFORMAT="%Y-%m-%d [%H:%M:%S]  "" | tee -a /etc/profile > /dev/null
+#              source /etc/profile
               touch $NOFILE
               echo "*   soft    nofile    65535" > $NOFILE
               echo "*   hard    nofile    65535" >> $NOFILE
