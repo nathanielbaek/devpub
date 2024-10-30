@@ -1,13 +1,13 @@
 #!/bin/bash
 
-###########################################################
-#                                                         #
-#  Title: Ubuntu20 LTS Setup Script                       #
-#  Author: Nathan baek                                    #
-#  Date: May 11th, 2023                                   #
-#  Description: default configure for blockchain node     #
-#                                                         #
-###########################################################
+##########################################################
+#                                                        #
+#  Title: Ubuntu20 LTS Setup Script                      #
+#  Author: Nathan baek                                   #
+#  Date: May 11th, 2023                                  #
+#  Description: default configure for blockchain node    #
+#                                                        #
+##########################################################
 
 # Variable
 [ -n "$ES" ] || ES="http://elasticsearch:9200"
