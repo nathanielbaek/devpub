@@ -1,13 +1,13 @@
 #!/bin/bash
 
-###########################################################
-#                                                         #
-#  Title: Klaytn Setup Script                             #
-#  Author: Nathan baek                                    #
-#  Date: May 11th, 2023                                   #
-#  Description: kscn v1.10.2-0 , homi v1.10.2-0           #
-#                                                         #
-###########################################################
+##########################################################
+#                                                        #
+#  Title: Klaytn Setup Script                            #
+#  Author: Nathan baek                                   #
+#  Date: May 11th, 2023                                  #
+#  Description: kscn v1.10.2-0 , homi v1.10.2-0          #
+#                                                        #
+##########################################################
 
 # Variable
 [ -n "$KSCNV11020" ] || KSCNV11020="https://packages.klaytn.net/klaytn/v1.10.2/kscn-v1.10.2-0-linux-amd64.tar.gz"
